@@ -1,0 +1,48 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  annotations:
+    openshift.io/generated-by: OpenShiftWebConsole
+  creationTimestamp: '2019-08-28T01:46:45Z'
+  labels:
+    app: flask-basic
+  name: flask-basic
+  namespace: my-1st-app
+  resourceVersion: '36481'
+  selfLink: /apis/build.openshift.io/v1/namespaces/my-1st-app/buildconfigs/flask-basic
+  uid: b157a0cf-c935-11e9-8344-08002772f4fc
+spec:
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'flask-basic:latest'
+  postCommit: {}
+  resources: {}
+  runPolicy: Serial
+  source:
+    git:
+      ref: master
+      uri: 'https://github.com/ishida330/flask-basic.git'
+    type: Git
+  strategy:
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: 'python:3.6'
+        namespace: openshift
+    type: Source
+  triggers:
+    - imageChange:
+        lastTriggeredImageID: >-
+          172.30.1.1:5000/openshift/python@sha256:d10c46b6db436357965a96716e9f5d230d9b1a58c6db1f0c4f43c1fb1994cd79
+      type: ImageChange
+    - type: ConfigChange
+    - generic:
+        secret: 0d3dc8e472c7ac1f
+      type: Generic
+    - github:
+        secret: 46468c11d54f62b8
+      type: GitHub
+status:
+  lastVersion: 6

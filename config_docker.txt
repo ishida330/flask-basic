@@ -1,0 +1,33 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  annotations:
+  name: flask-basic-docker
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'flask-basic-docker:latest'
+  runPolicy: Serial
+  source:
+    git:
+      ref: master
+      uri: 'https://github.com/ishida330/flask-basic.git'
+    type: Git
+  strategy:
+    dockerStrategy:
+    type: Docker
+  triggers:
+    - imageChange:
+        lastTriggeredImageID: >-
+          172.30.1.1:5000/openshift/python@sha256:d10c46b6db436357965a96716e9f5d230d9b1a58c6db1f0c4f43c1fb1994cd79
+      type: ImageChange
+    - type: ConfigChange
+    - generic:
+        secret: 0d3dc8e472c7ac1f
+      type: Generic
+    - github:
+        secret: 46468c11d54f62b8
+      type: GitHub
+status:
+  lastVersion: 6
